@@ -17,7 +17,7 @@ and this project adheres to
 - ✨(frontend) tell participants when a recording is interrupted
 - ✨(backend) show the last login of users in the admin
 - ✨(backend) filter users sharing an email in the admin
-- ✨(summary) make ASR response format configurable
+- ✨(summary) make ASR response format configurable #1946
 
 ### Changed
 
@@ -49,6 +49,7 @@ and this project adheres to
 ### Fixed
 
 - 📌(summary) pin kombu to keep celery workers compatible with redis 5
+- 🩹(summary) name unsupported parameters in the STT 400 error log #1946
 - 🐛(frontend) show a page when the connection ends unexpectedly
 - 🐛(frontend) show the transcript mic hint when every mic is muted
 - 🐛(frontend) show join errors instead of silently waiting in the lobby

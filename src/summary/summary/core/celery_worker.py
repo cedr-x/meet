@@ -192,8 +192,10 @@ def transcribe_audio(
             )
             if res.status_code == 400:
                 logger.info(
-                    "WhisperX transcription failed, "
-                    "likely due to a corrupted audio file: %s",
+                    "WhisperX rejected the transcription request (HTTP 400): "
+                    "either the audio file is corrupted, or the API does not "
+                    "support a request parameter such as response_format=%s: %s",
+                    settings.whisperx_response_format,
                     res.text,
                 )
                 raise CorruptedAudioFile("WhisperX coudln't decode the audio file.")

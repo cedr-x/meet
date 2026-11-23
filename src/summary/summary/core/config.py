@@ -2,7 +2,7 @@
 
 import logging
 from functools import cached_property, lru_cache
-from typing import Annotated, List, Mapping, Optional, Set
+from typing import Annotated, List, Literal, Mapping, Optional, Set
 
 from fastapi import Depends
 from pydantic import (
@@ -95,7 +95,7 @@ class Settings(BaseSettings):
     whisperx_asr_model: str = "whisper-1"
     # Use "verbose_json" for OpenAI-compatible STT endpoints that do not support
     # "diarized_json" (e.g. OVHcloud AI Endpoints).
-    whisperx_response_format: str = "diarized_json"
+    whisperx_response_format: Literal["diarized_json", "verbose_json"] = "diarized_json"
     # ISO 639-1 language code (e.g., "en", "fr", "es")
     whisperx_default_language: Optional[str] = None
     whisperx_allowed_languages: Set[str] = {"en", "fr", "de", "nl"}
