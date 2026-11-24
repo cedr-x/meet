@@ -147,13 +147,14 @@ def upload(drive: DriveClient, recording: models.Recording, filename, parent_id)
                 "cannot stream it to Drive."
             )
 
-        item = drive.create_file(filename=filename, parent_id=parent_id)
+        size = int(content_length)
+        item = drive.create_file(filename=filename, size=size, parent_id=parent_id)
 
         try:
             drive.upload_content(
                 policy_url=item["policy"],
                 stream=download.raw,
-                content_length=int(content_length),
+                content_length=size,
                 content_type=download.headers.get(
                     "Content-Type", "application/octet-stream"
                 ),

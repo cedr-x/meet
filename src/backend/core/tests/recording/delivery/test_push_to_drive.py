@@ -171,7 +171,9 @@ def test_push_to_drive_success(delivery, mock_send_email, audit_events):
     assert delivery.error == ""
 
     [create_file] = calls_to("POST", f"{API}/items/{FOLDER_ID}/children/")
-    filename = json.loads(create_file.request.body)["filename"]
+    body = json.loads(create_file.request.body)
+    assert body["size"] == 5
+    filename = body["filename"]
     assert filename.startswith("weekly-") and filename.endswith(".mp4")
     assert all(
         call.request.headers.get("Authorization") == "Bearer user-access-token"

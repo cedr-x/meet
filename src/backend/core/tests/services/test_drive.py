@@ -134,13 +134,13 @@ def test_create_file_in_folder(drive):
         f"{API}/items/{ITEM_ID}/children/",
         match=[
             responses.matchers.json_params_matcher(
-                {"type": "file", "filename": "room.mp4"}
+                {"type": "file", "filename": "room.mp4", "size": 5}
             )
         ],
         json={"id": "file-id", "policy": "https://storage.example.com/upload"},
     )
 
-    item = drive.create_file(filename="room.mp4", parent_id=ITEM_ID)
+    item = drive.create_file(filename="room.mp4", size=5, parent_id=ITEM_ID)
 
     assert item["policy"] == "https://storage.example.com/upload"
 
@@ -153,7 +153,7 @@ def test_create_file_at_root(drive):
         json={"id": "file-id", "policy": "https://storage.example.com/upload"},
     )
 
-    assert drive.create_file(filename="room.mp4")["id"] == "file-id"
+    assert drive.create_file(filename="room.mp4", size=5)["id"] == "file-id"
 
 
 @responses.activate
@@ -162,7 +162,7 @@ def test_create_file_without_policy(drive):
     responses.post(f"{API}/items/", json={"id": "file-id"})
 
     with pytest.raises(DriveError, match="upload policy"):
-        drive.create_file(filename="room.mp4")
+        drive.create_file(filename="room.mp4", size=5)
 
 
 @responses.activate

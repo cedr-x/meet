@@ -161,15 +161,22 @@ class DriveClient:
 
         return self._request("POST", "/items/", json={"type": "folder", "title": title})
 
-    def create_file(self, *, filename: str, parent_id: str | None = None) -> dict:
+    def create_file(
+        self, *, filename: str, size: int, parent_id: str | None = None
+    ) -> dict:
         """Create a file item, in `parent_id` or at the root, and return it.
 
         The returned item carries a `policy`: the presigned URL the content has
-        to be uploaded to.
+        to be uploaded to. Drive reserves `size` bytes and signs the URL for
+        exactly that length.
         """
 
         path = f"/items/{parent_id}/children/" if parent_id else "/items/"
-        item = self._request("POST", path, json={"type": "file", "filename": filename})
+        item = self._request(
+            "POST",
+            path,
+            json={"type": "file", "filename": filename, "size": size},
+        )
 
         if not item or not item.get("policy"):
             raise DriveError(
